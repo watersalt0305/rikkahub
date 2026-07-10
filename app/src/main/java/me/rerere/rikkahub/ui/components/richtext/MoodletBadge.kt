@@ -71,7 +71,8 @@ import com.composables.icons.lucide.Trophy
 import com.composables.icons.lucide.Volume2
 import com.composables.icons.lucide.Wine
 import com.composables.icons.lucide.Wrench
-import com.composables.icons.lucide.Zapimport org.jsoup.nodes.Element
+import com.composables.icons.lucide.Zap
+import org.jsoup.nodes.Element
 
 /**
  * Private mod: renders <silent mood="..." reason="..." as="..."></silent>
