@@ -281,6 +281,8 @@ private fun HtmlBlockElement(
             }
         }
 
+        "silent" -> MoodletBadge(element = element)
+
         else -> HtmlStyledElement(element = element) {
             // Generic fallback: recurse into children
             element.childNodes().forEach { HtmlBodyNode(it, onClickCitation) }
