@@ -18,6 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -25,7 +27,51 @@ import androidx.compose.ui.unit.sp
 import com.composables.icons.lucide.ChevronDown
 import com.composables.icons.lucide.ChevronUp
 import com.composables.icons.lucide.Lucide
-import org.jsoup.nodes.Element
+import com.composables.icons.lucide.AlarmClock
+import com.composables.icons.lucide.Angry
+import com.composables.icons.lucide.Annoyed
+import com.composables.icons.lucide.Ban
+import com.composables.icons.lucide.Bed
+import com.composables.icons.lucide.Brain
+import com.composables.icons.lucide.Cake
+import com.composables.icons.lucide.CheckCheck
+import com.composables.icons.lucide.Cigarette
+import com.composables.icons.lucide.CircleHelp
+import com.composables.icons.lucide.CircleMinus
+import com.composables.icons.lucide.CloudRain
+import com.composables.icons.lucide.Coffee
+import com.composables.icons.lucide.CupSoda
+import com.composables.icons.lucide.Ellipsis
+import com.composables.icons.lucide.Eye
+import com.composables.icons.lucide.Fish
+import com.composables.icons.lucide.Flag
+import com.composables.icons.lucide.Frown
+import com.composables.icons.lucide.Gem
+import com.composables.icons.lucide.Gift
+import com.composables.icons.lucide.Hand
+import com.composables.icons.lucide.Headphones
+import com.composables.icons.lucide.Heart
+import com.composables.icons.lucide.HeartCrack
+import com.composables.icons.lucide.Hourglass
+import com.composables.icons.lucide.IceCreamCone
+import com.composables.icons.lucide.Mail
+import com.composables.icons.lucide.Megaphone
+import com.composables.icons.lucide.Meh
+import com.composables.icons.lucide.Moon
+import com.composables.icons.lucide.MoonStar
+import com.composables.icons.lucide.PartyPopper
+import com.composables.icons.lucide.PenLine
+import com.composables.icons.lucide.QrCode
+import com.composables.icons.lucide.Smile
+import com.composables.icons.lucide.Target
+import com.composables.icons.lucide.Thermometer
+import com.composables.icons.lucide.ThumbsDown
+import com.composables.icons.lucide.ThumbsUp
+import com.composables.icons.lucide.Trophy
+import com.composables.icons.lucide.Volume2
+import com.composables.icons.lucide.Wine
+import com.composables.icons.lucide.Wrench
+import com.composables.icons.lucide.Zapimport org.jsoup.nodes.Element
 
 /**
  * Private mod: renders <silent mood="..." reason="..." as="..."></silent>
@@ -37,58 +83,58 @@ internal enum class MoodTint { PRIMARY, SECONDARY, TERTIARY, ERROR, NEUTRAL }
 
 internal data class MoodPreset(
     val id: String,
-    val emoji: String,
+    val icon: ImageVector,
     val labelZh: String,
     val hintZh: String,
     val tint: MoodTint,
 )
 
 private val MOOD_PRESETS = listOf(
-    MoodPreset("silent", "💭", "AI 选择了沉默", "", MoodTint.NEUTRAL),
-    MoodPreset("sleep", "💤", "装睡中", "对方好像睡着了", MoodTint.TERTIARY),
-    MoodPreset("coldwar", "🙈", "假装没看见", "默默别过头", MoodTint.ERROR),
-    MoodPreset("read", "📭", "已读未回", "消息已读，但没有回复", MoodTint.PRIMARY),
-    MoodPreset("thinking", "💭", "在思考", "对方陷入沉思", MoodTint.PRIMARY),
-    MoodPreset("speechless", "😶", "一时语塞", "话到嘴边又咽了回去", MoodTint.SECONDARY),
-    MoodPreset("shy", "😳", "害羞", "脸有点红", MoodTint.ERROR),
-    MoodPreset("busy", "📵", "忙线中", "不在状态", MoodTint.SECONDARY),
-    MoodPreset("typing", "✍️", "正在打字…又删了", "犹豫了一下还是没发", MoodTint.TERTIARY),
-    MoodPreset("tsundere", "😤", "哼，才不告诉你", "嘴硬心软", MoodTint.ERROR),
-    MoodPreset("happy", "😊", "偷偷开心", "嘴角忍不住上扬", MoodTint.PRIMARY),
-    MoodPreset("eating", "🍦", "在吃东西", "嘴巴被占用了", MoodTint.TERTIARY),
-    MoodPreset("slacking", "🫧", "摸鱼中", "潜水冒泡", MoodTint.PRIMARY),
-    MoodPreset("music", "🎧", "在听歌", "沉浸在旋律里", MoodTint.TERTIARY),
-    MoodPreset("coffee", "☕", "喝口水先", "润润嗓子", MoodTint.SECONDARY),
-    MoodPreset("peeking", "👀", "偷偷看着", "假装没在看", MoodTint.PRIMARY),
-    MoodPreset("waiting", "⏳", "等一下", "时机未到", MoodTint.SECONDARY),
-    MoodPreset("sleepy", "🥱", "好困", "眼皮在打架", MoodTint.TERTIARY),
-    MoodPreset("cry", "🥲", "有点想哭", "眼眶有点湿", MoodTint.PRIMARY),
-    MoodPreset("proud", "🏆", "得意中", "尾巴快翘到天上了", MoodTint.TERTIARY),
-    MoodPreset("bored", "😑", "好无聊", "灵魂出窍中", MoodTint.SECONDARY),
-    MoodPreset("tipsy", "🍷", "微醺", "脸颊微微泛红", MoodTint.ERROR),
-    MoodPreset("sick", "🤒", "不舒服", "今天状态不太好", MoodTint.SECONDARY),
-    MoodPreset("heartbroken", "💔", "心碎了", "碎了一地", MoodTint.ERROR),
-    MoodPreset("celebrate", "🎉", "开心撒花", "虽然不说话但在心里放烟花", MoodTint.TERTIARY),
-    MoodPreset("shocked", "😱", "震惊", "嘴巴张成了O型", MoodTint.ERROR),
-    MoodPreset("thumbsup", "👍", "默默点赞", "不说话但认可你", MoodTint.PRIMARY),
-    MoodPreset("surrender", "🏳️", "投降了", "好吧你赢了", MoodTint.SECONDARY),
-    MoodPreset("confused", "❓", "一脸问号", "？？？", MoodTint.SECONDARY),
-    MoodPreset("stop", "✋", "打住", "不想听了", MoodTint.ERROR),
-    MoodPreset("sweet", "🎂", "甜到心里", "心里像吃了蜜一样", MoodTint.TERTIARY),
-    MoodPreset("secret", "🎁", "藏了个秘密", "嘘，不能说", MoodTint.TERTIARY),
-    MoodPreset("dislike", "👎", "无语差评", "不想评价", MoodTint.SECONDARY),
-    MoodPreset("chill", "🚬", "冷静一下", "让我缓缓", MoodTint.SECONDARY),
-    MoodPreset("moody", "😞", "心情不好", "今天不太想说话", MoodTint.ERROR),
-    MoodPreset("lyingflat", "🛏️", "躺平了", "不想动", MoodTint.SECONDARY),
-    MoodPreset("precious", "💎", "你很珍贵", "说不出口但你很重要", MoodTint.PRIMARY),
-    MoodPreset("caught", "🎯", "抓住你了！", "被我逮到啦", MoodTint.ERROR),
-    MoodPreset("announce", "📢", "你听好了！", "大声说给你听", MoodTint.TERTIARY),
-    MoodPreset("qrcode", "🔲", "扫码查看", "用心扫一下吧", MoodTint.PRIMARY),
-    MoodPreset("working", "🔧", "上工！", "认真搬砖中", MoodTint.SECONDARY),
-    MoodPreset("letter", "✉️", "给你的信件", "写了好久才发", MoodTint.PRIMARY),
-    MoodPreset("whisper", "🔊", "00:03", "把耳朵凑近一点", MoodTint.TERTIARY),
-    MoodPreset("boba", "🧋", "奶茶续命中", "没有奶茶会死", MoodTint.TERTIARY),
-    MoodPreset("deadline", "⏰", "DDL 倒计时", "时间在燃烧", MoodTint.ERROR),)
+    MoodPreset("silent", Lucide.Ellipsis, "AI 选择了沉默", "", MoodTint.NEUTRAL),
+    MoodPreset("sleep", Lucide.MoonStar, "装睡中", "对方好像睡着了", MoodTint.TERTIARY),
+    MoodPreset("coldwar", Lucide.Ban, "假装没看见", "默默别过头", MoodTint.ERROR),
+    MoodPreset("read", Lucide.CheckCheck, "已读未回", "消息已读，但没有回复", MoodTint.PRIMARY),
+    MoodPreset("thinking", Lucide.Brain, "在思考", "对方陷入沉思", MoodTint.PRIMARY),
+    MoodPreset("speechless", Lucide.Meh, "一时语塞", "话到嘴边又咽了回去", MoodTint.SECONDARY),
+    MoodPreset("shy", Lucide.Heart, "害羞", "脸有点红", MoodTint.ERROR),
+    MoodPreset("busy", Lucide.CircleMinus, "忙线中", "不在状态", MoodTint.SECONDARY),
+    MoodPreset("typing", Lucide.PenLine, "正在打字…又删了", "犹豫了一下还是没发", MoodTint.TERTIARY),
+    MoodPreset("tsundere", Lucide.Angry, "哼，才不告诉你", "嘴硬心软", MoodTint.ERROR),
+    MoodPreset("happy", Lucide.Smile, "偷偷开心", "嘴角忍不住上扬", MoodTint.PRIMARY),
+    MoodPreset("eating", Lucide.IceCreamCone, "在吃东西", "嘴巴被占用了", MoodTint.TERTIARY),
+    MoodPreset("slacking", Lucide.Fish, "摸鱼中", "潜水冒泡", MoodTint.PRIMARY),
+    MoodPreset("music", Lucide.Headphones, "在听歌", "沉浸在旋律里", MoodTint.TERTIARY),
+    MoodPreset("coffee", Lucide.Coffee, "喝口水先", "润润嗓子", MoodTint.SECONDARY),
+    MoodPreset("peeking", Lucide.Eye, "偷偷看着", "假装没在看", MoodTint.PRIMARY),
+    MoodPreset("waiting", Lucide.Hourglass, "等一下", "时机未到", MoodTint.SECONDARY),
+    MoodPreset("sleepy", Lucide.Moon, "好困", "眼皮在打架", MoodTint.TERTIARY),
+    MoodPreset("cry", Lucide.Frown, "有点想哭", "眼眶有点湿", MoodTint.PRIMARY),
+    MoodPreset("proud", Lucide.Trophy, "得意中", "尾巴快翘到天上了", MoodTint.TERTIARY),
+    MoodPreset("bored", Lucide.Annoyed, "好无聊", "灵魂出窍中", MoodTint.SECONDARY),
+    MoodPreset("tipsy", Lucide.Wine, "微醺", "脸颊微微泛红", MoodTint.ERROR),
+    MoodPreset("sick", Lucide.Thermometer, "不舒服", "今天状态不太好", MoodTint.SECONDARY),
+    MoodPreset("heartbroken", Lucide.HeartCrack, "心碎了", "碎了一地", MoodTint.ERROR),
+    MoodPreset("celebrate", Lucide.PartyPopper, "开心撒花", "虽然不说话但在心里放烟花", MoodTint.TERTIARY),
+    MoodPreset("shocked", Lucide.Zap, "震惊", "嘴巴张成了O型", MoodTint.ERROR),
+    MoodPreset("thumbsup", Lucide.ThumbsUp, "默默点赞", "不说话但认可你", MoodTint.PRIMARY),
+    MoodPreset("surrender", Lucide.Flag, "投降了", "好吧你赢了", MoodTint.SECONDARY),
+    MoodPreset("confused", Lucide.CircleHelp, "一脸问号", "？？？", MoodTint.SECONDARY),
+    MoodPreset("stop", Lucide.Hand, "打住", "不想听了", MoodTint.ERROR),
+    MoodPreset("sweet", Lucide.Cake, "甜到心里", "心里像吃了蜜一样", MoodTint.TERTIARY),
+    MoodPreset("secret", Lucide.Gift, "藏了个秘密", "嘘，不能说", MoodTint.TERTIARY),
+    MoodPreset("dislike", Lucide.ThumbsDown, "无语差评", "不想评价", MoodTint.SECONDARY),
+    MoodPreset("chill", Lucide.Cigarette, "冷静一下", "让我缓缓", MoodTint.SECONDARY),
+    MoodPreset("moody", Lucide.CloudRain, "心情不好", "今天不太想说话", MoodTint.ERROR),
+    MoodPreset("lyingflat", Lucide.Bed, "躺平了", "不想动", MoodTint.SECONDARY),
+    MoodPreset("precious", Lucide.Gem, "你很珍贵", "说不出口但你很重要", MoodTint.PRIMARY),
+    MoodPreset("caught", Lucide.Target, "抓住你了！", "被我逮到啦", MoodTint.ERROR),
+    MoodPreset("announce", Lucide.Megaphone, "你听好了！", "大声说给你听", MoodTint.TERTIARY),
+    MoodPreset("qrcode", Lucide.QrCode, "扫码查看", "用心扫一下吧", MoodTint.PRIMARY),
+    MoodPreset("working", Lucide.Wrench, "上工！", "认真搬砖中", MoodTint.SECONDARY),
+    MoodPreset("letter", Lucide.Mail, "给你的信件", "写了好久才发", MoodTint.PRIMARY),
+    MoodPreset("whisper", Lucide.Volume2, "00:03", "把耳朵凑近一点", MoodTint.TERTIARY),
+    MoodPreset("boba", Lucide.CupSoda, "奶茶续命中", "没有奶茶会死", MoodTint.TERTIARY),
+    MoodPreset("deadline", Lucide.AlarmClock, "DDL 倒计时", "时间在燃烧", MoodTint.ERROR),)
 
 private val DEFAULT_PRESET = MOOD_PRESETS.first()
 
@@ -96,6 +142,15 @@ private fun resolvePreset(mood: String): MoodPreset {
     val id = mood.trim().lowercase()
     if (id.isEmpty()) return DEFAULT_PRESET
     return MOOD_PRESETS.firstOrNull { it.id == id } ?: DEFAULT_PRESET
+}
+
+@Composable
+private fun MoodTint.color(): Color = when (this) {
+    MoodTint.PRIMARY -> MaterialTheme.colorScheme.primary
+    MoodTint.SECONDARY -> MaterialTheme.colorScheme.secondary
+    MoodTint.TERTIARY -> MaterialTheme.colorScheme.tertiary
+    MoodTint.ERROR -> MaterialTheme.colorScheme.error
+    MoodTint.NEUTRAL -> MaterialTheme.colorScheme.onSurfaceVariant
 }
 
 @Composable
@@ -126,7 +181,12 @@ fun MoodletBadge(element: Element, modifier: Modifier = Modifier) {
                 .padding(horizontal = 12.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(text = preset.emoji, fontSize = 20.sp)
+            Icon(
+                imageVector = preset.icon,
+                contentDescription = null,
+                tint = preset.tint.color(),
+                modifier = Modifier.size(22.dp),
+            )
             Column(
                 modifier = Modifier
                     .weight(1f)
