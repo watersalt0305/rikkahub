@@ -71,6 +71,7 @@ android {
 
     buildTypes {
         release {
+            applicationIdSuffix = ".mod"
             signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
